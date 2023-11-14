@@ -17,7 +17,11 @@ class UserController  {
     static async getUsers(req, res) {
         try {
             const data = await User.findAll({
-                include : Photo
+                include : {
+                    Photo,
+                    Comment,
+                    SocialMedia
+                }
             })
             res.status(200).json(data)
         } catch (error) {
@@ -27,21 +31,32 @@ class UserController  {
     static async register(req, res) {
         try {
             const {
-                username,
+                full_name,
                 email,
-                password
+                username,
+                password,
+                profile_image_url,
+                age,
+                phone_number
             } = req.body
 
             const data = await User.create({
-                username,
+                full_name,
                 email,
-                password
+                username,
+                password,
+                profile_image_url,
+                age,
+                phone_number
             })
 
             res.status(201).json({
                 id: data.id,
                 username: data.username,
-                email: data.email
+                email: data.email,
+                profile_image_url: data.profile_image_url,
+                age: data.age,
+                phone_number:data.phone_number
             })
         } catch (error) {
 
