@@ -10,7 +10,7 @@ class PhotoController{
     static async getAllPhotos (req, res) {
         try {
             const data = await Photo.findAll({
-                include: User
+                include: User, Comment
             })
 
             res.status(200).json(data)
@@ -50,7 +50,7 @@ class PhotoController{
             const {
                 title,
                 caption,
-                image_url
+                poster_image_url
             } = req.body
 
             const userData = req.userData
@@ -59,7 +59,7 @@ class PhotoController{
             const data = await Photo.create({
                 title,
                 caption,
-                image_url,
+                poster_image_url,
                 UserId: userData.id
             });
            
@@ -73,7 +73,7 @@ class PhotoController{
             const {
                 title,
                 caption,
-                image_url
+                poster_image_url
             } = req.body
 
             const { id } = req.params
@@ -81,7 +81,7 @@ class PhotoController{
             const data = await Photo.update({
                 title,
                 caption,
-                image_url
+                poster_image_url
             }, {
                 where: {
                     id : id

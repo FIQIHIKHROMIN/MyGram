@@ -9,17 +9,17 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.addConstraint("Photos", {
-      fields: ["UserId"],
-      type: "foreign key",
-      name: "user_id_fk",
-      references: {
-        table: "Users",
-        field: "id"
-      },
-      onDelete: "cascade",
-      onUpdate: "cascade"
-    })
+  //   await queryInterface.addConstraint("Photos", {
+  //     fields: ["UserId"],
+  //     type: "foreign key",
+  //     name: "user_id_fk",
+  //     references: {
+  //       table: "Users",
+  //       field: "id"
+  //     },
+  //     onDelete: "cascade",
+  //     onUpdate: "cascade"
+  //   })
   },
 
   async down (queryInterface, Sequelize) {
@@ -29,7 +29,7 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeConstraint('Photos','user_id_fk')
-    await queryInterface.removeColumn('Photos', "UserId")
+    // await queryInterface.removeConstraint('Photos','user_id_fk')
+    // await queryInterface.removeColumn('Photos', "UserId")
   }
 };

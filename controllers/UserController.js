@@ -17,11 +17,11 @@ class UserController  {
     static async getUsers(req, res) {
         try {
             const data = await User.findAll({
-                include : {
+                include : 
                     Photo,
                     Comment,
                     SocialMedia
-                }
+                
             })
             res.status(200).json(data)
         } catch (error) {
@@ -81,7 +81,7 @@ class UserController  {
             if (!data) {
                 throw {
                     code: 404,
-                    mesagge: " User not registed!"
+                    message: " User not registed!"
                 }
             }
             //compare password
