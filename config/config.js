@@ -3,7 +3,7 @@ const config = {
     "development": {
       "username": "postgres",
       "password": "fiqih",
-      "database": "photo_album",
+      "database": "my_gram",
       "host": "127.0.0.1",
       "dialect":  "postgres"
     },

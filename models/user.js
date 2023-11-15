@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         //tidak boleh kosong
         notEmpty:{
           args: true,
-          msg: "Required"
+          msg: "Harus di isi"
         },
       }
     },

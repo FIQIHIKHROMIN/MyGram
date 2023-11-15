@@ -12,7 +12,7 @@ module.exports = {
     await queryInterface.addConstraint("Comments", {
       fields: ["UserId"],
       type: "foreign key",
-      name: "user_id_fk",
+      name: "user_id_fk1",
       references: {
         table: "Users",
         field: "id"

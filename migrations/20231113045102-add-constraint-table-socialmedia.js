@@ -12,7 +12,7 @@ module.exports = {
     await queryInterface.addConstraint("SocialMedia", {
       fields: ["UserId"],
       type: "foreign key",
-      name: "user_id_fk",
+      name: "user_id_fk2",
       references: {
         table: "Users",
         field: "id"
