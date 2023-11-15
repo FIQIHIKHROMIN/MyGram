@@ -1,23 +1,26 @@
-# Proyek REFLECTION API
+# My Gram
 
-Proyek ini dikembangkan sebagai bagian dari tugas Final Project Pertama dari Hacktivate Indonesia.
+Proyek ini dikembangkan sebagai bagian dari tugas Final Project  dari kedua Hacktivate Indonesia.
 
 ## Deskripsi
 
-Proyek REFLECTION API adalah sebuah aplikasi yang memungkinkan pengguna untuk melakukan CRUD Reflection. Aplikasi ini memiliki berbagai fitur Keamanan berupa Autentikasi dan Authorisasi.
+Proyek MyGram ini dapat menyimpan foto, membuat comment unntuk orang lain dan dilengkapi dengan proses CRUD dengan table
 
 ## Panduan API
 
-CRUD REFLECTION API adalah salah satu fitur utama yang memungkinkan pengembang aplikasi lain untuk berinteraksi dengan proyek ini. Panduan API ini memberikan instruksi tentang cara menggunakan API, termasuk endpoint yang tersedia, permintaan yang diperlukan, dan respons yang diharapkan.
-
+## User
 ### Register User
-
 #### Endpoint: POST `/users/register`
 ##### Dengan Mengirimkan request body :
 ```markdown
 {
   "email": "<email>",
-  "password": "<password>"
+  "full_name": "<full name>",
+  "username": "<username>"
+  "password": "<password>",
+  "profile_image_url": "<photo>",
+  "age": "<age>",
+  "phone_number": "<phone number>"
 }
 ```
 ##### Output dari endpoint ini :
@@ -26,23 +29,21 @@ CRUD REFLECTION API adalah salah satu fitur utama yang memungkinkan pengembang a
 
 ```markdown
 {
-  "id": <given id by system>,
-  "email": "<email>"
+  "user": {
+    "email": "<email>",
+    "full_name": "<full name>",
+    "username": "<username>"
+    "profile_image_url": "<photo>",
+    "age": "<age>",
+    "phone_number": "<phone number>"
+  }
 }
-
 ```
-
-###### *Response (400 - Bad Request)*
-
-```markdown
-{
-  "message": "Email already used!"
-}
-
-```
+Notes: password user harus dihash menggunakan Bcrypt sebelum disimpan didatabase
 
 ### Login User
-#### Endpoint: POST `/users/Login`uf
+
+#### Endpoint: POST `/users/Login`
 #### *Request Body*
 ```markdown
 {
@@ -54,95 +55,62 @@ CRUD REFLECTION API adalah salah satu fitur utama yang memungkinkan pengembang a
 #### *Response (200)*
 ```markdown
 {
-  "access_token": "<your access token>"
+  "token": "<jwt token>"
 }
 `````
+notes: harus melakukan logika user login untuk melakukan pengecekan email dan password user dan pengecekan password menggunakan package Bcrypt
 
-#### *Response (401)*
-```markdown
-{
-  "message": "Email or password invalid!"
-}
-``````
-### Create Reflection
+### Put User by id
+#### Endpoint: PUT `/users/:userId`
+  headers:token
+  paramas:userId
 #### *Request body*
 ```markdown
 {
-  "success": "<posted success>",
-  "low_point": "<posted low point>",
-  "take_away": "<posted take away>",
-}
-``````
-#### *Request Header*
-```markdown
-{
-  "Authorization": "bearer <your access token>"
-}
-``````
-#### *Response (201 - Created)*
-```markdown
-{
-  "id": <given id by system>,
-  "success": "<posted success>",
-  "low_point": "<posted low point>",
-  "take_away": "<posted take away>",
-  "UserId": "<UserId>",
-  "createdAt": "2023-04-20T07:15:12.149Z",
-  "updatedAt": "2023-04-20T07:15:12.149Z",
-}
-```````
-### *Response (401)*
-```markdown
-{
-  "message": "Unauthorized"
-}
-``````
-
-### Get User Reflections
-#### Endpoint: GET `/reflections`
-#### *Request Header*
-```markdown
-{
-  "Authorization": "bearer <your access token>"
+  "email": "<email>",
+  "full_name": "<full name>",
+  "username": "<username>"
+  "profile_image_url": "<photo>",
+  "age": "<age>",
+  "phone_number": "<phone number>"
 }
 ``````
 #### *Response (200)*
 ```markdown
-[
-  {
-  "id": <given id by system>,
-  "success": "<posted success>",
-  "low_point": "<posted low point>",
-  "take_away": "<posted take away>",
-  "UserId": "<UserId>",
-  "createdAt": "2023-04-20T07:15:12.149Z",
-  "updatedAt": "2023-04-20T07:15:12.149Z",
+{
+  "user": {
+    "email": "<email>",
+    "full_name": "<full name>",
+    "username": "<username>"
+    "profile_image_url": "<photo>",
+    "age": "<age>",
+    "phone_number": "<phone number>"
   }
-]
+}
+```````
+notes: endpoint ini memrlukan proses autentikasi dan autorisasi. proses autorisasinya adalah user hanya boleh melakukan update pada data dirinya sendiri
+
+### Delete User by id
+#### Endpoint: DELETE `user/:userId`
+#### *Request Header*
+```markdown
+headers:token
+paramas:userId
 ``````
-### *Reponse (401)*
+#### *Response (200)*
 ```markdown
 {
-  "message": "Unauthorized"
+  "message": "Your account has been succesfully deleted"
 }
 ``````
+## Photos
 
-
-### Edit User Reflection By ID
-#### Endpoint: PUT `/reflections/:id`
+### Post photo
+#### Endpoint: POST `photos`
 
 #### *Request Header*
 ```markdown
-{
-  "Authorization": "bearer <your access token>"
-}
-``````
-
-#### *Request Param*
-```markdown
-{
-  "id": "<id reflections>"
-}
+headers: token
 ``````
 
 #### *Request Body*
