@@ -93,84 +93,237 @@ notes: endpoint ini memrlukan proses autentikasi dan autorisasi. proses autorisa
 ### Delete User by id
 #### Endpoint: DELETE `user/:userId`
 #### *Request Header*
-```markdown
+
 headers:token
 paramas:userId
-``````
+
 #### *Response (200)*
 ```markdown
 {
   "message": "Your account has been succesfully deleted"
 }
 ``````
+
 ## Photos
 
 ### Post photo
-#### Endpoint: POST `photos`
+#### Endpoint: POST `/photos`
 
 #### *Request Header*
-```markdown
+
 headers: token
+#### *Request Body*
+```markdown
+{
+  "poster_image_url": "<photo>",
+  "title": "<title>",
+  "caption": "<caption>"
+}
 ``````
+
+#### *Response (201)*
+``````markdown
+{
+  "id": <given id by system>,
+  "poster_image_url": "<photo>",
+  "title": "<title>",
+  "caption": "<caption>"
+  "UserId": "<UserId>"
+}
+``````
+
+notes: endpoint ini perlu melewati proses autentikasi dengan package JsonWebToken
+
+### Get Photo
+#### endpoint: GET `/photos`
+
+#### *Request Body*
+headers:token
+
+#### *Response (200)*
+```markdown
+{
+  "photos": [
+    {
+       "id": <given id by system>,
+       "title": "<title>",
+       "caption": "<caption>"
+       "poster_image_url": "<photo>",
+       "UserId": "<UserId>",
+       "createAt" "<date>",
+       "updateAt" "<date>",
+       "Comments": [
+         {
+           "comments": "<comments>",
+           "User": {
+             "username": "<username>"
+           }
+         }
+       ],
+       "User": {
+         "id": <given id by system>,
+         "username": "<username>",
+         "profile_image_url": "<photo>"
+       }
+    }
+  ]
+}
+``````
+
+notes: endpoint ini perlu melewati proses autentikasi dengan package JsonWebToken
+
+### Put photos By ID
+#### Endpoint: PUT `/photos/:photoid`
+#### *Request Body*
+```markdown
+{
+  "title": "<title>",
+  "caption": "<caption>"
+  "poster_image_url": "<photo>"
+}
+``````
+  
+#### *Response (200)*
+```markdown
+{
+  "photos":
+    {
+       "id": <given id by system>,
+       "title": "<title>",
+       "caption": "<caption>"
+       "poster_image_url": "<photo>",
+       "UserId": "<UserId>",
+       "createAt" "<date>",
+       "updateAt" "<date>",
+    }
+}
+`````
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken
+
+### Delete photos By ID
+#### Endpoint: DELETE `/photos/:photoid`
+#### *Request Body*
+headers:token
+params:photoId
+  
+#### *Response (200)*
+```markdown
+{
+  "message": "Your photo has been succesfully deleted"
+}
+``````
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken dan bisa terhapus dengan photo milliknya sendiri
+
+## Comments
+
+### Post comments
+#### Endpoint: POST `/commets`
+
+#### *Request Header*
+headers: token
 
 #### *Request Body*
 ```markdown
 {
-  "success": "<posted success>",
-  "low_point": "<posted low point>",
-  "take_away": "<posted take away>"
+  "comment": "<comment>",
+  "PhotoId": "<photoId>"
 }
 ``````
 
-#### *Response (200)*
+#### *Response (201)*
 ``````markdown
 {
-  "id": <given id by system>,
-  "success": "<posted success>",
-  "low_point": "<posted low point>",
-  "take_away": "<posted take away>",
-  "UserId": "<UserId>",
-  "createdAt": "2023-04-20T07:15:12.149Z",
-  "updatedAt": "2023-04-20T07:15:12.149Z",
+  "comment": {
+    "id": <given id by system>,
+    "comment": "<comment>",
+    "UserId": "<UserId>",
+    "PhotoId": "<photoId>",
+    "createAt" "<date>",
+    "updateAt" "<date>"
+  }
 }
 ``````
 
-### *Response (401)*
-```markdown
-{
-  "message": "Unauthorized"
-}
-``````
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan package JsonWebToken
 
+### Get comments
+#### endpoint: GET `/comments`
 
-### Delete User Reflection By ID
-#### Endpoint: DELETE `/reflections/:id`
-#### *Request Header*
-```markdown
-{
-  "Authorization": "bearer <your access token>"
-}
-``````
-#### *Request Params*
-```markdown
-{
-  "id": "<id reflections>"
-}
-`````
-### Delete Sukses
+#### *Request Body*
+headers:token
+
 #### *Response (200)*
 ```markdown
 {
-  "message": "Success delete"
+  "commets": [
+    {
+       "id": <given id by system>,
+       "UserId": "<UserId>",
+       "PhotoId": "<photoId>",
+       "comment": "<comment>",
+       "createAt" "<date>",
+       "updateAt" "<date>",
+       "Photo": {
+           "id": <given id by system>,
+           "title": "<title>",
+           "caption": "<caption>"
+           "poster_image_url": "<photo>"
+         },
+       "User": {
+         "id": <given id by system>,
+         "username": "<username>",
+         "profile_image_url": "<photo>",
+         "phone_number": "<phone number>"
+       }
+    }
+  ]
 }
-`````
+``````
 
-#### *Response (401)*
+notes: endpoint ini perlu melewati proses autentikasi dengan package JsonWebToken
+
+### Put photos By ID
+#### Endpoint: PUT `/photos/:photoid`
+#### *Request Body*
 ```markdown
 {
-  "message": "Unauthorized"
+  "title": "<title>",
+  "caption": "<caption>"
+  "poster_image_url": "<photo>"
+}
+``````
+  
+#### *Response (200)*
+```markdown
+{
+  "photos":
+    {
+       "id": <given id by system>,
+       "title": "<title>",
+       "caption": "<caption>"
+       "poster_image_url": "<photo>",
+       "UserId": "<UserId>",
+       "createAt" "<date>",
+       "updateAt" "<date>",
+    }
 }
 `````
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken
+
+### Delete photos By ID
+#### Endpoint: DELETE `/photos/:photoid`
+#### *Request Body*
+headers:token
+params:photoId
+  
+#### *Response (200)*
+```markdown
+{
+  "message": "Your photo has been succesfully deleted"
+}
+``````
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken dan bisa terhapus dengan photo milliknya sendiri
+
 ## Lisensi
 
 Proyek REFLECTION API tidak dilisensikan dikarenakan proyek ini hanya untuk pembelajaran.
