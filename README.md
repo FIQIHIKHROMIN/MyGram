@@ -282,51 +282,148 @@ headers:token
 
 notes: endpoint ini perlu melewati proses autentikasi dengan package JsonWebToken
 
-### Put photos By ID
-#### Endpoint: PUT `/photos/:photoid`
+### Put comments By ID
+#### Endpoint: PUT `/comments/:commentsId`
 #### *Request Body*
 ```markdown
 {
-  "title": "<title>",
-  "caption": "<caption>"
-  "poster_image_url": "<photo>"
+  "comment": "<comment>"
 }
 ``````
   
 #### *Response (200)*
 ```markdown
 {
-  "photos":
+  "comments":
     {
        "id": <given id by system>,
-       "title": "<title>",
-       "caption": "<caption>"
-       "poster_image_url": "<photo>",
+       "comment": "<comment>",
        "UserId": "<UserId>",
+       "PhotoId": "<photoId>",
        "createAt" "<date>",
        "updateAt" "<date>",
     }
 }
 `````
-notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken dan alur proses autorisasinya hanya boleh mengupdate data comment miliknya sendiri
 
-### Delete photos By ID
-#### Endpoint: DELETE `/photos/:photoid`
+### Delete comments By ID
+#### Endpoint: DELETE `/comments/:commentsId`
 #### *Request Body*
 headers:token
-params:photoId
+params:commentsId
   
 #### *Response (200)*
 ```markdown
 {
-  "message": "Your photo has been succesfully deleted"
+  "message": "Your comments has been succesfully deleted"
 }
 ``````
-notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken dan bisa terhapus dengan photo milliknya sendiri
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken dan bisa terhapus dengan comments milliknya sendiri
 
-## Lisensi
+## SocialMedias
 
-Proyek REFLECTION API tidak dilisensikan dikarenakan proyek ini hanya untuk pembelajaran.
+### Post comments
+#### Endpoint: POST `/socialmedias`
+
+#### *Request*
+headers: token
+body: 
+```markdown
+{
+  "comment": "<comment>",
+  "PhotoId": "<photoId>"
+}
+``````
+
+#### *Response (201)*
+``````markdown
+{
+  "social_media": {
+    "id": <given id by system>,
+    "name": "<nama>",
+    "social_media_url": "<data>",
+    "UserId": "<UserId>",
+    "createAt" "<date>",
+    "updateAt" "<date>"
+  }
+}
+``````
+
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan package JsonWebToken
+
+### Get socialmedias
+#### endpoint: GET `/socialmedias`
+
+#### *Request Body*
+headers:token
+
+#### *Response (200)*
+```markdown
+{
+  "social_medias": [
+    {
+       "id": <given id by system>,
+       "name": "<nama>",
+       "social_media_url": "<data>",
+       "UserId": "<UserId>",
+       "createAt" "<date>",
+       "updateAt" "<date>"
+       "User": {
+           "id": <given id by system>,
+           "username": "<username>",
+           "poster_image_url": "<photo>"
+         }
+    }
+  ]
+}
+``````
+
+notes: endpoint ini perlu melewati proses autentikasi dengan package JsonWebToken
+
+### Put socialmedias
+#### Endpoint: PUT `/socialmedias`
+#### *Request*
+headers: token
+params: socialMediaId
+body:
+```markdown
+{
+  "name": "<nama>",
+  "social_media_url": "data" 
+}
+``````
+  
+#### *Response (200)*
+```markdown
+{
+  "social_media":
+    {
+       "id": <given id by system>,
+       "name": "<nama>",
+       "social_media_url": "<data>",
+       "UserId": "<UserId>",
+       "createAt" "<date>",
+       "updateAt" "<date>"
+    }
+}
+`````
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken dan alur proses autorisasinya hanya boleh mengupdate data comment miliknya sendiri
+
+### Delete socialmedias By ID
+#### Endpoint: DELETE `/socialmedias/:socialMediaId`
+#### *Request Body*
+headers:token
+params:socalMediaId
+  
+#### *Response (200)*
+```markdown
+{
+  "message": "Your social media has been succesfully deleted"
+}
+``````
+notes: endpoint ini perlu melewati proses autentikasi dan autorisasi dengan JsonWebToken dan bisa terhapus dengan comments milliknya sendiri
+
 
 ## Penutup
 
