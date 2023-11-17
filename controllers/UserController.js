@@ -110,6 +110,68 @@ class UserController  {
             
         }
     }
+
+    static async updateUser (req, res) {
+        try {
+            const {
+                full_name,
+                email,
+                username,
+                profile_image_url,
+                age,
+                phone_number
+            } = req.body
+
+            const { id } = req.params
+
+            const data = await User.update({
+                full_name,
+                email,
+                username,
+                profile_image_url,
+                age,
+                phone_number
+            }, {
+                where: {
+                    id : id
+                },
+                returning : true
+            })
+
+            if (!data[0]) {
+                throw {
+                    code: 404,
+                    message: "Data not Found!"
+                }
+            }
+
+            res.status(201).json(data)
+        } catch (error) {
+            console.log(error)
+            res.status(error.code || 500).json(error.message)
+        }
+    }
+    static async deleteUserById(req, res) {
+        try {
+            const { id } = req.params
+            const data = await User.destroy({
+                where:{
+                    id
+                }
+            })
+            if (!data) {
+                throw {
+                    code: 404,
+                    message: "Data not found!"
+                }
+            }
+            res.status(200).json("Your Users has been succesfully deleted")
+
+        } catch (error) {
+            console.log(error)
+            res.status(error.code || 500).json(error.message)
+        }
+    }
 }
 
 module.exports = UserController

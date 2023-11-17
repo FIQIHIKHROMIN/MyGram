@@ -1,7 +1,7 @@
 const {
     Photo,
     User,
-    Comment,
+    Comment
 } = require("../models")
 
 class PhotoController{
@@ -19,7 +19,7 @@ class PhotoController{
             res.status(500).json(error)
         }
     }
-
+  
     // bisa diakses jika UserIdnya sama dengan yang login
     static async getPhotoById(req, res) {
         try {
@@ -116,7 +116,7 @@ class PhotoController{
                     message: "Data not found!"
                 }
             }
-            res.status(200).json("Success delete photos")
+            res.status(200).json("Your Photos has been succesfully deleted")
 
         } catch (error) {
             console.log(error)
