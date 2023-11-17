@@ -48,6 +48,30 @@ const authentication = async(req, res, next) => {
     }
 }
 
-module.exports = {
-    authentication
-}
+const authorization = async (req, res, next) => {
+    try {
+      // Dapatkan data pengguna dari middleware autentikasi
+      const { userData } = req;
+  
+      // Dapatkan parameter yang diperlukan dari request
+      const { userId } = req.params;
+  
+      // Cek apakah pengguna yang sedang login adalah pemilik data yang akan diupdate
+      if (userData.id !== userId) {
+        throw {
+          code: 403,
+          message: 'Unauthorized update: User can only update their own data',
+        };
+      }
+  
+      // Lanjutkan ke controller jika otorisasi berhasil
+      next();
+    } catch (error) {
+      res.status(error.code || 500).json(error.message);
+    }
+  };
+  
+  module.exports = {
+    authentication,
+    authorization,
+  };

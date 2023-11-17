@@ -5,11 +5,10 @@ const photoRoutes = require("./PhotoRoutes")
 const commentRoutes = require("./CommentRoutes")
 const SocialMedia = require("./Socialmedia")
 
-const { authentication } = require("../middlewares/auth")
 
-router.use("/photos", authentication, photoRoutes)
-router.use("/comments", authentication, commentRoutes)
-router.use("/socialmedia", authentication, SocialMedia)
+router.use("/photos", photoRoutes)
+router.use("/comments", commentRoutes)
+router.use("/socialmedia", SocialMedia)
 router.use("/users", userRoutes)
 
 module.exports = router
