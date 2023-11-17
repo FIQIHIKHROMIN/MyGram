@@ -38,8 +38,12 @@ const authentication = async(req, res, next) => {
 
         req.userData = {
             id: userData.id,
+            full_name: userData.full_name,
             email: userData.email,
-            username: userData.username
+            username: userData.username,
+            profile_image_url: userData.profile_image_url,
+            age: userData.age,
+            phone_number: userData.phone_number
         }
 
         next()
@@ -52,12 +56,14 @@ const authorization = async (req, res, next) => {
     try {
       // Dapatkan data pengguna dari middleware autentikasi
       const { userData } = req;
-  
+      console.log(userData, "<<userdata")
+      
       // Dapatkan parameter yang diperlukan dari request
-      const { userId } = req.params;
+      const { id } = req.params;
+      console.log(id, "<<id")
   
       // Cek apakah pengguna yang sedang login adalah pemilik data yang akan diupdate
-      if (userData.id !== userId) {
+      if (userData.id != id) {
         throw {
           code: 403,
           message: 'Unauthorized update: User can only update their own data',
